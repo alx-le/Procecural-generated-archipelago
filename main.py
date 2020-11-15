@@ -13,7 +13,7 @@ from PIL import ImageTk, Image
 class wndw():
     def __init__(self):
         self.root = tk.Tk()  
-        self.root.geometry("1280x800")
+        self.root.geometry("1280x1024")
         self.f1 = tk.Frame(self.root,bg='#000000')
         self.f1.place(x=0,y=0,width = 1024, height = 1024)
         self.canvas = tk.Canvas(self.f1, width = 1024, height = 1024)  
@@ -60,7 +60,7 @@ class wndw():
         else:
             seed = int(self.e2.get())
             
-        self.world = w.world(z=lvl, b = seed)
+        self.world = w.world_gen(z=lvl, b = seed)
         self.i = self.world.retBgMap()
         self.img = ImageTk.PhotoImage(self.i)
         self.canvas.itemconfig(self.imgArea, image=self.img) 

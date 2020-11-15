@@ -139,16 +139,16 @@ class world_gen:
                 if self.nMap[i][j] <= boundaries[0]:
                     self.rgbMap[i][j] = blue
                     self.rType[i][j] = 'f'
-                elif self.nMap[i][j] > boundaries[0] and self.nMap[i][j] <= boundaries[1]:
+                elif self.nMap[i][j] <= boundaries[1]:
                     self.rgbMap[i][j] = beach
                     self.rType[i][j] = 'n'
-                elif self.nMap[i][j] >boundaries[1] and self.nMap[i][j] <= boundaries[2]:
+                elif self.nMap[i][j] <= boundaries[2]:
                     self.rgbMap[i][j] = green
                     self.rType[i][j] = 'g'
-                elif self.nMap[i][j] > boundaries[2] and self.nMap[i][j] <= boundaries[3]:
+                elif self.nMap[i][j] <= boundaries[3]:
                     self.rgbMap[i][j] = darkgreen
                     self.rType[i][j] = 'w'
-                elif self.nMap[i][j] > boundaries[3] and self.nMap[i][j] <= boundaries[4]:
+                elif self.nMap[i][j] <= boundaries[4]:
                     self.rgbMap[i][j] = mountain
                     self.rType[i][j] = 'm'
                 elif self.nMap[i][j] > boundaries[4]:
