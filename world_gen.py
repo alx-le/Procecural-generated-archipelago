@@ -11,7 +11,8 @@ from PIL import Image
 #import pop
 
 class world_gen:
-           
+    
+    #noise map generation
     def genNMAP(self,x,y):
         noisemap = np.zeros((x,y))
         gradMap = self.genGMap()
@@ -28,7 +29,8 @@ class world_gen:
                 
         maxN = np.amax(noisemap)
         noisemap = noisemap/maxN
-                
+        
+        #apply gradient map
         for i in range(y):
             for j in range(x):
                 noisemap[i][j] = noisemap[i][j]*abs(gradMap[i][j])
@@ -40,6 +42,8 @@ class world_gen:
                 
         return noisemap  
     
+    #generate gradient map to overlay over noise map
+    #currently circular to create archipelago
     def genGMap(self):
         gradMap = np.zeros((self.xDim,self.yDim))
         cntr = (self.xDim/2 , self.yDim/2)
@@ -68,7 +72,8 @@ class world_gen:
         gradMap = gradMap/maxG
         
         return gradMap
-        
+    
+    #initialize world with settings for perlin noise
     def __init__(self, x = 1024, y = 1024, z = 0.1, b = 34):
         self.xDim = x
         self.yDim = y
@@ -81,24 +86,28 @@ class world_gen:
         self.nMap = self.genNMAP(x,y)
         self.rgbMap = np.zeros((x,y,3), dtype=np.uint8)
         self.rType = np.empty((x,y), dtype=str)
-        
+    
+    #not used method to generate population
     def invoke(self):
         self.genMap()
         
-            
+    #show background map        
     def showBgMap(self):
         img = Image.fromarray(self.rgbMap, mode='RGB')
         img.show()
-        
+    #return background map
     def retBgMap(self):
         self.genMap()
         img = Image.fromarray(self.rgbMap, mode='RGB')
         return img
     
+    #return overlay map
     def retFgMap(self):
         img = Image.fromarray(self.fgMap, mode='RGBA')
         return img
-        
+    
+    #generate overlay map
+    #currently not used
     def genFgMap(self):
         shape = (self.xDim,self.yDim)
         bT = [255,255,255,0]
@@ -116,6 +125,7 @@ class world_gen:
                     
         self.updateFgMap()
     
+    #generate color map from noise map
     def genMap(self):
         shape = (self.xDim,self.yDim)
         blue = [65,105,225]
@@ -126,6 +136,7 @@ class world_gen:
         mountain = [160,160,160]
         snow = [255,250,250]
         
+        #steps for color changes
         steps = [0,0.05,0.25,0.45,0.75]
         minL = self.threshold
         maxL = np.amax(self.nMap)
@@ -154,7 +165,8 @@ class world_gen:
                 elif self.nMap[i][j] > boundaries[4]:
                     self.rgbMap[i][j] = snow
                     self.rType[i][j] = 's'
-                    
+    
+    #show final map
     def showMap(self):
         bg = self.retBgMap()
         bg.show()
